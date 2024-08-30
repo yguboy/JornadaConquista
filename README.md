@@ -1,4 +1,5 @@
-O projeto não possui nada incomum, apenas certifiquese de possuir as imagens em que o projeto necessita importadas para dentro do programa![Parabens](https://github.com/user-attachments/assets/49e275f9-8add-4511-b720-0304c62549cf)
+O projeto não possui nada incomum, apenas certifiquese de possuir as imagens em que o projeto necessita importadas para dentro do programa!
+
 
 ![Desistiu](https://github.com/user-attachments/assets/ce5e8c7c-2ab4-4399-84a8-4bc5bf6bae01)
 ![Comecou](https://github.com/user-attachments/assets/07d76264-3818-4526-9045-0efccb216566)
