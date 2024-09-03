@@ -1,5 +1,9 @@
 package com.example.jornadaconquista
 
+//Este é um projeto desenvolvido com função vistas tanto em aula quanto
+//tambem com auxilio do material de outras aulas.
+//Certifique-se que as imagens estão importadas correamente!
+
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -14,7 +18,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.example.jornadaconquista.ui.theme.JornadaConquistaTheme
 
 class MainActivity : ComponentActivity() {
@@ -22,13 +28,13 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-            JornadaConquistaTheme()
+            JornadaConquista()
         }
     }
 }
 
 @Composable
-fun JornadaConquistaTheme() {
+fun JornadaConquista() {
     var contadorClicks by remember { mutableStateOf(0) }
     var imagens by remember { mutableStateOf(R.drawable.comecou) }
     var totalClicks by remember { mutableStateOf((1..50).random()) }
@@ -48,39 +54,55 @@ fun JornadaConquistaTheme() {
     }
 
     Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(Color.Black),
-        verticalArrangement = Arrangement.Center,
+        modifier = Modifier.fillMaxSize().background(Color.White),
+        verticalArrangement = Arrangement.Top,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
+        Text(
+            text = "A Jornada da Conquista",
+            color = Color.Black,
+            fontSize = 25.sp,
+            fontWeight = FontWeight.Bold,
+            modifier = Modifier.padding(top = 200.dp)
+        )
+
+        Spacer(modifier = Modifier.height(16.dp))
+
         Image(
             painter = painterResource(id = imagens),
             contentDescription = null,
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(300.dp)
-                .clickable {
+            modifier = Modifier.fillMaxWidth().height(300.dp).clickable {
                     contadorClicks++
                     updateImage(contadorClicks)
                 }
         )
 
-        Spacer(modifier = Modifier.height(16.dp))
+        Spacer(modifier = Modifier.weight(1f))
 
-        Button(
-            onClick = { dialogoFinal = true },
+        Button(onClick = { dialogoFinal = true },modifier = Modifier
+                .fillMaxWidth(0.5f)
+                .height(60.dp),
             colors = ButtonDefaults.buttonColors(containerColor = Color.Red)
         ) {
-            Text("Desistir")
+            Text("Desistir", fontSize = 20.sp)
         }
+
+        Spacer(modifier = Modifier.height(25.dp))
+
+        Text(
+            text = "Clique na imagem para avançar na jornada",
+            color = Color.Black,
+            fontSize = 20.sp
+        )
+
+        Spacer(modifier = Modifier.height(300.dp))
     }
 
     if (mensagemParabens) {
         AlertDialog(
             onDismissRequest = {  },
             title = { Text(text = "Parabéns!") },
-            text = { Text("Você alcançou a conquista!") },
+            text = { Text("Você alcançou a conquista!", fontSize = 20.sp) },
             confirmButton = {
                 Row(
                     modifier = Modifier.fillMaxWidth(),
@@ -95,7 +117,7 @@ fun JornadaConquistaTheme() {
                         },
                         colors = ButtonDefaults.buttonColors(containerColor = Color.Red)
                     ) {
-                        Text("Jogar Novamente")
+                        Text("Jogar Novamente", fontSize = 20.sp)
                     }
                 }
             },
@@ -106,10 +128,16 @@ fun JornadaConquistaTheme() {
     if (dialogoFinal) {
         AlertDialog(
             onDismissRequest = { dialogoFinal = false },
-            title = { Text(text = "Desistiu?") },
+            title = {
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.Center
+                ) {
+                    Text(text = "Desistiu?", fontSize = 25.sp)
+                }
+            },
             text = {
-                Column(
-                    horizontalAlignment = Alignment.CenterHorizontally
+                Column(horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     Image(
                         painter = painterResource(id = R.drawable.desistiu),
@@ -118,13 +146,13 @@ fun JornadaConquistaTheme() {
                             .size(300.dp)
                             .padding(bottom = 30.dp)
                     )
-                    Text("Deseja tentar novamente?")
+                    Text("Deseja tentar novamente?", fontSize = 20.sp)
                 }
             },
             confirmButton = {
                 Row(
                     modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.Center
+                    horizontalArrangement = Arrangement.SpaceEvenly
                 ) {
                     Button(
                         onClick = {
@@ -135,23 +163,18 @@ fun JornadaConquistaTheme() {
                         },
                         colors = ButtonDefaults.buttonColors(containerColor = Color.Red)
                     ) {
-                        Text("Sim")
+                        Text("Sim", fontSize = 20.sp)
                     }
-                }
-            },
-            dismissButton = {
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.Center
-                ) {
+
                     Button(
                         onClick = { dialogoFinal = false },
                         colors = ButtonDefaults.buttonColors(containerColor = Color.Red)
                     ) {
-                        Text("Não")
+                        Text("Não", fontSize = 20.sp)
                     }
                 }
             }
         )
     }
 }
+
