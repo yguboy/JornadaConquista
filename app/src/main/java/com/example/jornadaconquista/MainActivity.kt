@@ -17,6 +17,8 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -41,6 +43,10 @@ fun JornadaConquista() {
     var mensagemParabens by remember { mutableStateOf(false) }
     var dialogoFinal by remember { mutableStateOf(false) }
 
+    val configuration = LocalConfiguration.current
+    val screenHeight = configuration.screenHeightDp.dp
+    val screenWidth = configuration.screenWidthDp.dp
+
     fun updateImage(clicks: Int) {
         when {
             clicks <= totalClicks * 0.33 -> imagens = R.drawable.comecou
@@ -54,8 +60,11 @@ fun JornadaConquista() {
     }
 
     Column(
-        modifier = Modifier.fillMaxSize().background(Color.White),
-        verticalArrangement = Arrangement.Top,
+        modifier = Modifier
+            .fillMaxSize()
+            .background(Color.White)
+            .padding(16.dp),
+        verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(
@@ -63,7 +72,9 @@ fun JornadaConquista() {
             color = Color.Black,
             fontSize = 25.sp,
             fontWeight = FontWeight.Bold,
-            modifier = Modifier.padding(top = 200.dp)
+            modifier = Modifier
+                .padding(top = if (screenHeight > screenWidth) 50.dp else 16.dp)
+                .align(Alignment.CenterHorizontally)
         )
 
         Spacer(modifier = Modifier.height(16.dp))
@@ -71,7 +82,12 @@ fun JornadaConquista() {
         Image(
             painter = painterResource(id = imagens),
             contentDescription = null,
-            modifier = Modifier.fillMaxWidth().height(300.dp).clickable {
+            contentScale = ContentScale.FillWidth,
+            modifier = Modifier
+                .fillMaxWidth(0.7f)
+                .padding(horizontal = 20.dp)
+                .height(if (screenHeight > screenWidth) 400.dp else 200.dp)
+                .clickable {
                     contadorClicks++
                     updateImage(contadorClicks)
                 }
@@ -79,7 +95,9 @@ fun JornadaConquista() {
 
         Spacer(modifier = Modifier.weight(1f))
 
-        Button(onClick = { dialogoFinal = true },modifier = Modifier
+        Button(
+            onClick = { dialogoFinal = true },
+            modifier = Modifier
                 .fillMaxWidth(0.5f)
                 .height(60.dp),
             colors = ButtonDefaults.buttonColors(containerColor = Color.Red)
@@ -95,12 +113,12 @@ fun JornadaConquista() {
             fontSize = 20.sp
         )
 
-        Spacer(modifier = Modifier.height(300.dp))
+        Spacer(modifier = Modifier.height(50.dp))
     }
 
     if (mensagemParabens) {
         AlertDialog(
-            onDismissRequest = {  },
+            onDismissRequest = { },
             title = { Text(text = "Parabéns!") },
             text = { Text("Você alcançou a conquista!", fontSize = 20.sp) },
             confirmButton = {
@@ -137,7 +155,8 @@ fun JornadaConquista() {
                 }
             },
             text = {
-                Column(horizontalAlignment = Alignment.CenterHorizontally
+                Column(
+                    horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     Image(
                         painter = painterResource(id = R.drawable.desistiu),
@@ -177,4 +196,3 @@ fun JornadaConquista() {
         )
     }
 }
-
